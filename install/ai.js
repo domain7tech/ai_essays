@@ -1,6 +1,5 @@
 //Load Prompts
 
-copyDocsContentsToArray();
 
 //Set Access to Sheets 
 
@@ -49,6 +48,8 @@ function myKey() {
 
 function readEssayData() {
   // Open the Spreadsheet
+  copyDocsContentsToArray();
+
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   
  
