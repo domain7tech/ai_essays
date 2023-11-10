@@ -1,54 +1,14 @@
-//Load Prompts
-
-
-//Set Access to Sheets 
-
-// Function to access the Sheet ID
-function getMySheetID() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetId = scriptProperties.getProperty('MY_SHEET_ID');
-    return sheetId;
-  } catch (err) {
-    console.log(`Failed getting property "MY_SHEET_ID": ${err.message}`);
-    return null;
-  }
-}
-
-// Function to access the Sheet Tab Name
-function getMySheetTabName() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetTabName = scriptProperties.getProperty('MY_SHEET_TAB_NAME');
-    return sheetTabName;
-  } catch (err) {
-    console.log(`Failed getting property "MY_SHEET_TAB_NAME": ${err.message}`);
-    return null;
-  }
-}
-
+//This script only needs editing if you want add more prompts
+//or change the email subject line
 var mySheetID = getMySheetID();
 var mySheetTabName = getMySheetTabName();
-
-//Access OpenAI Account
-
-
-function myKey() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const myProp = scriptProperties.getProperty('OPENAI_API_KEY');
-    return myProp;
-  } catch (err) {
-    console.log(`Failed getting property "OPENAI_API_KEY": ${err.message}`);
-    return null;
-  }
-}
-
+var theStop = 0;
 
 
 function readEssayData() {
   // Open the Spreadsheet
-  copyDocsContentsToArray();
+  copyDocsContentsToArray();//Ensure most recent data is being used from Prompts
+  setAISystemRole();//Ensure most recent data is being used from the Control
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   
@@ -63,81 +23,10 @@ function readEssayData() {
   var lastRowData = sheet.getRange(lastRow, 1, 1, lastCol).getValues()[0];
   
   // Log the data to Google Apps Script logger for debugging purposes
-  Logger.log(lastRowData);
+  //Logger.log(lastRowData);
 
   return lastRowData;
 }
-
-///Pull in Prompt IDs
-function Prompt1ID() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetId = scriptProperties.getProperty('MY_PROMPT_1');
-    return sheetId;
-  } catch (err) {
-    console.log(`Failed getting property "MY_PROMPT_1": ${err.message}`);
-    return null;
-  }
-}
-
-function Prompt2ID() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetId = scriptProperties.getProperty('MY_PROMPT_2');
-    return sheetId;
-  } catch (err) {
-    console.log(`Failed getting property "MY_PROMPT_2": ${err.message}`);
-    return null;
-  }
-}
-
-function Prompt3ID() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetId = scriptProperties.getProperty('MY_PROMPT_3');
-    return sheetId;
-  } catch (err) {
-    console.log(`Failed getting property "MY_PROMPT_3": ${err.message}`);
-    return null;
-  }
-}
-
-////Pull in Question Type
-
-function Qtype1ID() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetId = scriptProperties.getProperty('MY_QTYPE_1');
-    return sheetId;
-  } catch (err) {
-    console.log(`Failed getting property "MY_QTYPE_1": ${err.message}`);
-    return null;
-  }
-}
-
-function Qtype2ID() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetId = scriptProperties.getProperty('MY_QTYPE_2');
-    return sheetId;
-  } catch (err) {
-    console.log(`Failed getting property "MY_QTYPE_2": ${err.message}`);
-    return null;
-  }
-}
-
-function Qtype3ID() {
-  try {
-    const scriptProperties = PropertiesService.getScriptProperties();
-    const sheetId = scriptProperties.getProperty('MY_QTYPE_3');
-    return sheetId;
-  } catch (err) {
-    console.log(`Failed getting property "MY_QTYPE_3": ${err.message}`);
-    return null;
-  }
-}
-
-///////////////////////
 
 
 /////Start OpenAI Process
@@ -155,6 +44,7 @@ var prompt1Text = DocumentApp.openById(prompt1Id).getBody().getText();
 var prompt2Text = DocumentApp.openById(prompt2Id).getBody().getText();
 var prompt3Text = DocumentApp.openById(prompt3Id).getBody().getText();
 
+
 // Initialize position variable
 var position;
 
@@ -167,7 +57,7 @@ var prompt_lastRow = prompt_sheet.getLastRow();
 
 // Get the value from the last row of column G
 var prompt_lastValueInG = prompt_sheet.getRange(prompt_lastRow, 7).getValue();
-Logger.log("Last value in Column G: '" + prompt_lastValueInG + "'");
+//Logger.log("Last value in Column G: '" + prompt_lastValueInG + "'");
 
 // Check the value in column G and set the position accordingly
 if (prompt_lastValueInG.trim() === Qtype1ID()) {
@@ -183,17 +73,27 @@ Logger.log("Selected Prompt: " + position); // Log the selected prompt
 var lastSubmissionData = readEssayData();
 var myData = JSON.stringify(lastSubmissionData);
 
+const myAITemp = getAITemp();
+const myAIModel = getAIModel();
+const myAITokens = getAITokens();
 const myPropValue = myKey();
 
+
 // Combine the selected prompt with the last submission data
+//You can adjust the mode, temperature, and maxTokens
+
 var prompt = position + "\n" + myData;
-var model = "gpt-3.5-turbo-16k-0613";
-var temperature = .7;
-var maxTokens = 2400;
+var model = myAIModel;
+var temperature = myAITemp;
+var maxTokens = myAITokens;
 var apiKey = myPropValue;
 var nextForm = false; // Initialize nextForm as false
+var theControl = setAISystemRole();
 
 // Set up the request body with the given parameters
+//You can adjust the model, temp, and maxTokens in the script properies
+//Temp is from .1-.9 but in the settings use whole numbers 1-9
+
 var requestBody = {
   "model": model,
   "temperature": temperature,
@@ -201,7 +101,7 @@ var requestBody = {
   "messages": [
     {
       "role": "system",
-      "content": "You are a K-12 English Literature teacher helping students get started on essays and writing prompts."
+      "content": theControl
     },
     {"role": "user", "content": prompt}
   ]
@@ -231,6 +131,7 @@ try {
     var modelResponse = jsonResponse['choices'][0]['message']['content'];
 
     // Log the model's response
+   
     Logger.log(modelResponse);
     // Process the modelResponse as needed
   } else {
@@ -239,10 +140,10 @@ try {
   }
 } catch (e) {
   // Handle any exceptions that occur during the fetch call
-  Logger.log('Exception: ' + e.toString());
+     Logger.log('Exception: ' + e.toString());
 }
 
-Logger.log(nextForm);
+//Logger.log(nextForm);
 
 if (nextForm) {
  
@@ -277,15 +178,41 @@ if (!sheet) {
   
   // Check if there's an email address before attempting to send
   if (recipient) {
-    // Send the email
+    var now = new Date();
+    // Format the date and time to a human-readable string
+    // Ensure to use the correct timezone, for example, 'GMT+02:00' for Central European Time
+    var timestamp = Utilities.formatDate(now, 'GMT+06:00', 'yyyy-MM-dd HH:mm:ss'); 
+    
+    // Construct the email subject with the date and time included
+    var emailSubject = "AI and Google Model Analysis Report - " + timestamp;                  
+
     MailApp.sendEmail({
       to: recipient, // Using the recipient's email address from the last row
-      subject: "Model Analysis Report",
+      subject: emailSubject,
       body: "Here is the analysis report generated by the model:\n\n" + modelResponse
     });
     nextForm = false;
-    Logger.log("Email sent successfully to: " + recipient);
+    var logMessage ="Email sent successfully to: " + recipient;
+    var logTimestamp = timestamp;
+
+    Logger.log(logMessage);
     Logger.log(nextForm);
+
+      // Access the spreadsheet and the specific sheet (tab)
+    var logSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    var logSheet = logSpreadsheet.getSheetByName("Log");
+
+    // Find the last row with content in Column A
+    var logLastRow = logSheet.getLastRow();
+
+    // Write data to the next row
+    logSheet.getRange(logLastRow + 1, 1).setValue(logTimestamp); 
+    logSheet.getRange(logLastRow + 1, 2).setValue(logMessage);
+
+     formatLogSheet();
+
+
+
   } else {
     Logger.log("No email address found in the last row.");
   }
@@ -295,14 +222,23 @@ if (!sheet) {
 //This re-runs the OpenAI query if it fails for some reason
 
 } else {
+  
+   
+ 
   // Wait for 30 seconds before calling OpenAI() again
-  setTimeout(function() {
+    Utilities.sleep(5000); 
+    
+    theStopp++;
+    
     OpenAI();
-  }, 30000); // 5000 milliseconds = 5 seconds
+    // 5000 milliseconds = 5 seconds
               // 20000 milliseconds = 20 seconds
               // 30000 milliseconds = 30 seconds
               // 60000 milliseconds = 1 minute
+    
 
+
+    
 }
 
 
