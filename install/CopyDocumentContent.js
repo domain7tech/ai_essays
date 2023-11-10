@@ -1,5 +1,11 @@
+//These functions update the program when you change your prompts.
+//You should not need to make any changes
+
 function copyDocsContentsToArray() {
-  var folderId = '1uTnAuzEj3cH0AToRgiSGTFJ1sI9IrI96'; // Replace with your folder ID
+  var myFolderID = getMyFolderID();
+
+
+  var folderId = myFolderID; // Replace with your folder ID
   var folder = DriveApp.getFolderById(folderId);
   var files = folder.getFiles();
   var docsContent = [];
@@ -19,7 +25,34 @@ function copyDocsContentsToArray() {
   }
   
   // Log the array to verify its contents
-  Logger.log(docsContent);
+  //Logger.log(docsContent);
   
   return docsContent; // This array contains the contents of the documents
 }
+
+
+//Loads Control statement
+
+function setAISystemRole() {
+  var myFolderID = getDocumentControlID();
+
+  var myControl = ''; // Initialize the variable
+  var docId = myFolderID; // Replace with your actual document ID
+
+  try {
+    var doc = DocumentApp.openById(docId);
+    var body = doc.getBody();
+    myControl = body.getText();
+
+    // Log the variable to view in the Apps Script console
+    //Logger.log(myControl);
+  } catch (e) {
+    // Log the error message if the document cannot be found or another error occurs
+    Logger.log('Error: ' + e.toString());
+  }
+
+  // Return the text content of the document
+  return myControl;
+}
+
+
