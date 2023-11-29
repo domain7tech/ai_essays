@@ -1,0 +1,34 @@
+Requirements:
+
+1. OpenAI API Key (Dmeonstrated in the video)
+2. Credit Card for the OpenAI account
+3. Google Workspaces account
+4. Google Apps Script Service available to your account (usually this is on by default)
+
+The first steps are:
+
+1. In Google Drive create a new folder. Call it "AI Essays"
+2. Inside create a Form, called it "Essay Prototyping"
+3. Create the form fields. For this example most fields are Short Text, and all are required except for
+the email for an advisor. The 'Tpe of Work', is multiple choice. There are three choices.
+4. After the form is created, create the spreadheet for the results from inside the form.
+5. Security on the form is your preference.
+6. The video lesson will cover all other steps.
+
+
+
+Your Full Name
+
+Your Email Address
+
+What book, topic, or writing prompt you are targeting? 500 Words or Less
+
+What is your teacher's email address?
+
+Add an email if you want for an advisor, tutor, etc (Optional)
+
+Type of Work. (Multiple Choice)
+
+Thesis - create a thesis statment and get feedback 
+Get Started - explain what you are doing and writing about 
+Rough Draft - get feedback on your Rough Draft
