@@ -56,9 +56,16 @@ Google Docs Names
 
 Create Docs
 Prompt1
+Generate five paragraphs to help me get started with this.
+
 Prompt2
+For this writing task, I need help getting started with this topic; I need a started paragraph structure. 
+
 Prompt3
+Please review my thesis for this topic. How can I make it more convincing?
+
 Control
+You are a K-12 English Literature teacher helping students get started on essays and writing prompts.
 
 
 
