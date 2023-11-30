@@ -51,4 +51,15 @@ MY_QTYPE_3	Rough Draft
 MY_SHEET_ID	Your Unique Value
 MY_SHEET_TAB_NAME	Form Responses 1
 OPENAI_API_KEY	Your Unique Value
+
+Google Docs Names
+
+Create Docs
+Prompt1
+Prompt2
+Prompt3
+Control
+
+
+
 	
