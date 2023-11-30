@@ -32,3 +32,23 @@ Type of Work. (Multiple Choice)
 Thesis - create a thesis statment and get feedback 
 Get Started - explain what you are doing and writing about 
 Rough Draft - get feedback on your Rough Draft
+
+
+Property List for the Settings
+
+Property	Value
+AI_MODEL	gpt-3.5-turbo-16k-0613
+AI_TEMP	7
+AI_TOKENS	2400
+DOCUMENT_ID_CONTROL	Your Unique Value
+FOLDER_ID_PROMPTS	Your Unique Value
+MY_PROMPT_1	Your Unique Value
+MY_PROMPT_2	Your Unique Value
+MY_PROMPT_3	Your Unique Value
+MY_QTYPE_1	Thesis
+MY_QTYPE_2	Get Started
+MY_QTYPE_3	Rough Draft
+MY_SHEET_ID	Your Unique Value
+MY_SHEET_TAB_NAME	Form Responses 1
+OPENAI_API_KEY	Your Unique Value
+	
