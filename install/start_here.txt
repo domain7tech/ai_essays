@@ -7,13 +7,30 @@ Requirements:
 
 The first steps are:
 
-1. In Google Drive create a new folder. Call it "AI Essays"
+1. In Google Drive create a new folder. Call it "AI Essays" and then create all the Documents
 2. Inside create a Form, called it "Essay Prototyping"
 3. Create the form fields. For this example most fields are Short Text, and all are required except for
 the email for an advisor. The 'Tpe of Work', is multiple choice. There are three choices.
 4. After the form is created, create the spreadheet for the results from inside the form.
 5. Security on the form is your preference.
 6. The video lesson will cover all other steps.
+
+
+
+##########Google Docs Names###########
+
+
+Prompt1
+Generate five paragraphs to help me get started with this.
+
+Prompt2
+For this writing task, I need help getting started with this topic; I need a started paragraph structure. 
+
+Prompt3
+Please review my thesis for this topic. How can I make it more convincing?
+
+Control
+You are a K-12 English Literature teacher helping students get started on essays and writing prompts.
 
 
 ##########FORM FIELDS###########3
@@ -35,7 +52,7 @@ Get Started - explain what you are doing and writing about
 Rough Draft - get feedback on your Rough Draft
 
 
-Property List for the Settings
+###########Property List for the Settings#############
 
 Property	Value
 AI_MODEL	gpt-3.5-turbo-16k-0613
@@ -53,20 +70,7 @@ MY_SHEET_ID	Your Unique Value
 MY_SHEET_TAB_NAME	Form Responses 1
 OPENAI_API_KEY	Your Unique Value
 
-Google Docs Names
 
-Create Docs
-Prompt1
-Generate five paragraphs to help me get started with this.
-
-Prompt2
-For this writing task, I need help getting started with this topic; I need a started paragraph structure. 
-
-Prompt3
-Please review my thesis for this topic. How can I make it more convincing?
-
-Control
-You are a K-12 English Literature teacher helping students get started on essays and writing prompts.
 
 
 
